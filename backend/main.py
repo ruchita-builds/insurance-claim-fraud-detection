@@ -16,15 +16,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load trained model and expected columnsmodel = 
-try:
-    model = joblib.load("backend/models/final_fraud_model.pkl")
-    columns = joblib.load("backend/models/model_columns.pkl")
-    print("✅ Model and columns loaded successfully")
-except Exception as e:
-    print("❌ Error loading model or columns:", e)
-    model = None
-    columns = []
+# Load trained model and expected columns
+model = joblib.load("models/final_fraud_model.pkl")
+columns = joblib.load("models/model_columns.pkl")
 
 # Corrected FraudInput to match frontend JSON keys
 class FraudInput(BaseModel):
