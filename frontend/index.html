@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Auto Insurance Claim Fraud Detection System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Machine Learning based Auto Insurance Claim Fraud Detection System using Random Forest algorithm.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Animated Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-blue"></div>
+    <div class="bg-glow bg-glow-purple"></div>
+
+    <!-- Top Navigation -->
+    <header class="glass-nav">
+        <div class="logo">
+            <div class="logo-icon"><i class="ph-fill ph-shield-check"></i></div>
+            <span class="logo-text">Auto Insurance Fraud <strong class="text-gradient">Detection</strong></span>
+        </div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#workflow">Architecture</a>
+            <a href="#how-it-works">About</a>
+            <button onclick="openHelpModal()" class="btn-text" id="help-btn">
+                <i class="ph ph-question"></i> How To Use
+            </button>
+            <a href="#predict" class="btn-nav">Launch Panel</a>
+        </nav>
+    </header>
+
+    <!-- HELP MODAL -->
+    <div id="help-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3><i class="ph-fill ph-info"></i> How To Use</h3>
+                <button onclick="closeHelpModal()" class="icon-btn" aria-label="Close"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="instruction-step">
+                    <div class="step-num">1</div>
+                    <div style="padding-top: 2px;">
+                        <p>Enter the required claim and driver details.</p>
+                    </div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-num">2</div>
+                    <div style="padding-top: 2px;">
+                        <p>Click "Predict Fraud Risk".</p>
+                    </div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-num">3</div>
+                    <div style="padding-top: 2px;">
+                        <p>The system sends data to the FastAPI backend.</p>
+                    </div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-num">4</div>
+                    <div style="padding-top: 2px;">
+                        <p>The trained Random Forest model calculates fraud probability.</p>
+                    </div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-num">5</div>
+                    <div style="padding-top: 2px;">
+                        <p>Review the risk percentage and recommendation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">
+                <i class="ph-fill ph-cpu"></i> Enterprise Risk Intelligence
+            </div>
+            <h1>Automate Fraud Classification<br>with <span class="text-gradient">Precision</span></h1>
+            <p>Empower your analysts with real-time risk scoring, explainable insights, and highly tuned probabilistic
+                modeling for instant decision supremacy.</p>
+            <div class="hero-actions">
+                <a href="#predict" class="btn-primary">
+                    Run Analysis Engine <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="glass-card hero-stats">
+                <div class="stat-row">
+                    <div class="stat-icon-wrapper blue"><i class="ph-fill ph-activity"></i></div>
+                    <div class="stat-detail">
+                        <h4>Real-Time Inference</h4>
+                        <p>Avg &lt; 150ms Response</p>
+                    </div>
+                </div>
+                <div class="stat-row">
+                    <div class="stat-icon-wrapper purple"><i class="ph-fill ph-brain"></i></div>
+                    <div class="stat-detail">
+                        <h4>Random Forest Ensemble</h4>
+                        <p>Hyperparameter Tuned</p>
+                    </div>
+                </div>
+                <div class="stat-row">
+                    <div class="stat-icon-wrapper green"><i class="ph-fill ph-lock-key"></i></div>
+                    <div class="stat-detail">
+                        <h4>SOC 2 Compliant</h4>
+                        <p>End-to-End Encrypted Pipeline</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Algorithmic Supremacy</h2>
+            <p>Built for institutions that demand scalable fraud interception without analyst friction.</p>
+        </div>
+
+        <div class="grid cards-grid">
+            <div class="glass-card feature-card">
+                <div class="icon-box blue"><i class="ph ph-lightning"></i></div>
+                <h3>Real-Time Telemetry</h3>
+                <p>Instant probability analysis powered by optimized model artifacts to detect anomalies before payout
+                    authorization.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="icon-box purple"><i class="ph ph-chart-line-up"></i></div>
+                <h3>Explainable Signatures</h3>
+                <p>Clear interpretative transparency with multi-dimensional risk indicators mapped directly to claim
+                    parameters.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="icon-box green"><i class="ph ph-shield-check"></i></div>
+                <h3>Enterprise Architecture</h3>
+                <p>Robust distributed FastAPI backend built entirely for mission-critical production deployment
+                    topologies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section id="workflow" class="workflow">
+        <div class="section-header">
+            <h2>Analytical Pipeline</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-node">01</div>
+                <div class="glass-card timeline-content">
+                    <h4>Vector Ingestion</h4>
+                    <p>Transmit standardized JSON payloads containing driver demographics, policy structures, and
+                        discrete claim economics over secure TLS.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-node">02</div>
+                <div class="glass-card timeline-content">
+                    <h4>Ensemble Processing</h4>
+                    <p>The deployed Random Forest regressor interprets non-linear variable intersections against
+                        historic fraudulent matrices.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-node">03</div>
+                <div class="glass-card timeline-content">
+                    <h4>Actionable Intelligence</h4>
+                    <p>Return deterministic percentages, bounded confidence assertions, and definitive threshold-based
+                        routing commands.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREDICTION ENGINE PANEL -->
+    <section id="predict" class="predict">
+        <div class="section-header">
+            <h2>Risk Intelligence Terminal</h2>
+            <p>Submit claim vectors to the live inference API for immediate assessment.</p>
+        </div>
+
+        <div class="predict-layout">
+            <!-- INPUT FORM -->
+            <div class="glass-card form-box">
+                <div class="panel-header">
+                    <h3><i class="ph-fill ph-faders"></i> Fraud Risk Input Parameters</h3>
+                   
+                </div>
+                <form id="prediction-form" aria-label="Fraud Prediction Form"
+                    onsubmit="event.preventDefault(); predictFraud();">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="age">Age of Driver</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-user"></i>
+                                <input type="number" id="age" required min="16" max="100" placeholder="e.g. 35">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="annual_income">Annual Income</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-currency-dollar"></i>
+                                <input type="number" id="annual_income" required min="0" placeholder="e.g. 60000">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="vehicle_price">Vehicle Price</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-car"></i>
+                                <input type="number" id="vehicle_price" required min="0" placeholder="e.g. 25000">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="total_claim_amount">Total Claim</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-receipt"></i>
+                                <input type="number" id="total_claim_amount" required min="0" placeholder="e.g. 5000">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="injury_claim">Injury Claim</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-bandaids"></i>
+                                <input type="number" id="injury_claim" required min="0" placeholder="e.g. 1000">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="policy_deductible">Policy Deductible</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-shield-plus"></i>
+                                <input type="number" id="policy_deductible" required min="0" placeholder="e.g. 500">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="past_number_of_claims">Past Num of Claims</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-clock-counter-clockwise"></i>
+                                <input type="number" id="past_number_of_claims" required min="0" placeholder="e.g. 1">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="days_open">Days Open</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-calendar-blank"></i>
+                                <input type="number" id="days_open" required min="0" placeholder="e.g. 14">
+                                <span class="focus-border"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" id="analyze-btn">
+                            <i class="ph-bold ph-scan"></i> Predict Fraud Risk
+                        </button>
+                        <button type="button" class="btn-secondary" id="reset-btn" onclick="resetAnalysis()">
+                            <i class="ph ph-arrow-counter-clockwise"></i> Reset Analysis
+                        </button>
+                    </div>
+
+                    <p class="form-hint"><i class="ph ph-lock-key"></i> Connection secured via 256-bit AES TLS.</p>
+                </form>
+            </div>
+
+            <!-- RESULT Box -->
+            <div class="glass-card result-box">
+                <div class="panel-header result-panel-header">
+                    <h3><i class="ph-fill ph-chart-polar"></i> Telemetry Result</h3>
+                    <div class="model-meta">Model: Random Forest (Tuned)</div>
+                </div>
+
+                <div class="result-state-wrapper">
+                    <!-- Idle State -->
+                    <div id="loading-state" class="state-container">
+                        <div class="idle-icon-wrapper"><i class="ph ph-radar icon-large text-muted"></i></div>
+                        <h3>Engine Standby</h3>
+                        <p class="text-muted">Awaiting claim vector submission.<br>System is armed.</p>
+                    </div>
+
+                    <!-- Processing State -->
+                    <div id="processing-state" class="state-container hidden">
+                        <div class="scanner-wrapper">
+                            <div class="scanner-bar"></div>
+                            <i class="ph ph-cpu icon-large text-blue"></i>
+                        </div>
+                        <h3>Computing Probabilities...</h3>
+                        <p class="text-muted">Executing Fast API backend protocol</p>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="error-state" class="state-container hidden">
+                        <div class="error-icon-wrapper"><i class="ph-fill ph-warning-circle text-danger icon-large"></i>
+                        </div>
+                        <h3 class="text-danger">Inference Failed</h3>
+                        <p class="text-muted" id="error-message">Connection to inference endpoint timed out or was
+                            refused. Check API status.</p>
+                        <button class="btn-secondary" onclick="resetFormState()">Acknowledge</button>
+                    </div>
+
+                    <!-- Result State -->
+                    <div id="result-card" class="state-container result-content hidden">
+                        <h3 class="result-title">Fraud Risk Probability</h3>
+
+                        <div class="score-display">
+                            <h1 id="probability-text">0.0%</h1>
+                            <div class="confidence-label" id="confidence-label">High Confidence</div>
+                            <span id="risk-label" class="badge-risk">Low</span>
+                        </div>
+
+                        <div class="meter-container">
+                            <div class="meter-bg">
+                                <div id="meter-fill" class="meter-fill"></div>
+                            </div>
+                            <div class="meter-scale">
+                                <span>0%</span>
+                                <span>50%</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+
+                        <div class="result-details">
+                            <div class="detail-item glass-pill" id="recommendation-box">
+                                <i class="ph ph-check-circle" id="recommendation-icon"></i>
+                                <span id="recommendation-text">Auto-Approve Claim Authorization</span>
+                            </div>
+                        </div>
+
+                        <!-- Top Contributing Factors -->
+                        <div class="features-panel">
+                            <h4 class="features-title"><i class="ph-fill ph-chart-bar"></i> Top Contributing Risk
+                                Factors</h4>
+                            <div class="feature-bar-wrap">
+                                <div class="feature-label">
+                                    <span>Total Claim Amount</span>
+                                    <span>High Impact</span>
+                                </div>
+                                <div class="feature-bar-bg">
+                                    <div class="feature-bar-fill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div class="feature-bar-wrap">
+                                <div class="feature-label">
+                                    <span>Past Number of Claims</span>
+                                    <span>Medium Impact</span>
+                                </div>
+                                <div class="feature-bar-bg">
+                                    <div class="feature-bar-fill" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                            <div class="feature-bar-wrap">
+                                <div class="feature-label">
+                                    <span>Injury Claim to Total Ratio</span>
+                                    <span>Medium Impact</span>
+                                </div>
+                                <div class="feature-bar-bg">
+                                    <div class="feature-bar-fill" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT THIS APPLICATION -->
+    <section id="how-it-works" class="knowledge-base">
+        <div class="glass-card collapsible-card">
+            <button class="collapsible-header" onclick="toggleKnowledgeBase()">
+                <div class="header-left">
+                    <i class="ph-fill ph-info text-blue"></i>
+                    <h2>About This Application</h2>
+                </div>
+                <i class="ph-bold ph-caret-down toggle-icon" id="kb-icon"></i>
+            </button>
+            <div class="collapsible-content" id="kb-content">
+                <div class="kb-grid">
+                    <div class="kb-col">
+                        <h3>Model Selection and Performance</h3>
+                        <p>This application predicts insurance fraud probability using machine learning. The dataset
+                            contains 12,002 records and 28+ features, with the target variable being fraud reported. The
+                            system was trained and evaluated using multiple classification models:</p>
+                        <ul
+                            style="padding-left: 1.5rem; margin-top: 0.5rem; color: var(--text-secondary); line-height: 1.6;">
+                            <li>Logistic Regression (Accuracy: 77.38%)</li>
+                            <li>Decision Tree (Accuracy: 67.68%)</li>
+                            <li>Random Forest (Accuracy: 77.84%)</li>
+                        </ul>
+                    </div>
+                    <div class="kb-col">
+                        <h3>Final Implementation</h3>
+                        <p>Random Forest achieved the highest performance and was selected as the final deployed model.
+                            It features a cross-validation mean score of 77.82%.</p>
+                        <p style="margin-top: 1rem;">Hyperparameter tuning was performed using GridSearchCV to optimize
+                            model performance, ensuring professional, robust evaluation metrics on complex datasets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <i class="ph-fill ph-shield-check"></i>
+                <span class="logo-text">Auto Insurance Fraud <strong class="text-gradient">Detection</strong></span>
+            </div>
+            <p>Proprietary Machine Learning Engine. Strict Confidentiality Applied.</p>
+            <div class="ethical-notice">
+                <i class="ph-fill ph-scales"></i>
+                <p>This system provides mathematical decision support for authorized analysts and does not replace human
+                    investigation, ethical deliberation, or regulatory compliance.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
