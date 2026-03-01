@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
@@ -6,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="SecureClaim AI")
 
-# Enable CORS
+# Enable CORS so frontend can call API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load model and columns
+# Load trained model and expected columnsmodel = 
 try:
     model = joblib.load("backend/models/final_fraud_model.pkl")
     columns = joblib.load("backend/models/model_columns.pkl")
@@ -25,7 +26,7 @@ except Exception as e:
     model = None
     columns = []
 
-# Input schema
+# Corrected FraudInput to match frontend JSON keys
 class FraudInput(BaseModel):
     age_of_driver: float
     annual_income: float
@@ -38,31 +39,24 @@ class FraudInput(BaseModel):
 
 @app.post("/predict")
 def predict(data: FraudInput):
-    if model is None or not columns:
-        return {"error": "Model not loaded correctly"}
 
-    try:
-        input_dict = data.dict()
-        input_df = pd.DataFrame([input_dict])
+    input_dict = data.dict()
 
-        # Add missing columns
-        for col in columns:
-            if col not in input_df.columns:
-                input_df[col] = 0
+    input_df = pd.DataFrame([input_dict])
 
-        # Reorder columns exactly as model expects
-        input_df = input_df[columns]
+    # Add missing columns
+    for col in columns:
+        if col not in input_df.columns:
+            input_df[col] = 0
 
-        # Predict probability
-        prediction = model.predict_proba(input_df)[0][1]
+    input_df = input_df[columns]
 
-        return {"fraud_probability": round(float(prediction * 100), 2)}
+    prediction = model.predict_proba(input_df)[0][1]
 
-    except Exception as e:
-        # Log exception in server logs
-        print("❌ Prediction error:", e)
-        return {"error": str(e)}
+    return {
+        "fraud_probability": round(float(prediction * 100), 2)
+    }
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
