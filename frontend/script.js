@@ -74,11 +74,11 @@ async function predictFraud() {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 5000);
 
-        const response = await fetch("http://127.0.0.1:8000/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify(data),
-            signal: controller.signal
+        const response = await fetch("https://insurance-claim-fraud-detection-rqsw.onrender.com/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(data),
+        signal: controller.signal
         });
 
         clearTimeout(timeout);
